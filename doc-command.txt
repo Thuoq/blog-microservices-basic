@@ -1,0 +1,6 @@
+Build a image 
+docker image build -t demo-blog-front-end-kage .          
+
+Build a container
+
+docker container run -it -p 3140:4000 demo-post-back-end-kage

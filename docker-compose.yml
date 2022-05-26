@@ -1,0 +1,26 @@
+version: '3.8'
+services: 
+  clients: 
+    build: "./client/"
+    stdin_open: true
+    volumes: 
+      - microservices_blog:/data
+    restart: always
+  comments: 
+    build: "./comments"  
+    stdin_open: true
+    port: 
+    environment: 
+      PORT: 4001
+    volumes: 
+      - microservices_blog:/data
+    restart: always
+  posts: 
+    build: "./comments"
+    stdin_open: true
+    environment: 
+      PORT: 4000
+    restart: always
+volumes:
+  microservices_blog:
+
