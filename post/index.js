@@ -18,24 +18,32 @@ app.get("/", (req, res) => {
 })
 
 app.post("/posts", async (req, res) => {
-    const id = randomBytes(4).toString('hex');
-    const {
-        title
-    } = req.body
-    posts[id] = {
-        id,
-        title
-    }
-    await axios.post('http://localhost:4005/event', {
-        type: "PostCreated",
-        data: {
+    try {
+        const id = randomBytes(4).toString('hex');
+        const {
+            title
+        } = req.body
+        posts[id] = {
             id,
             title
         }
-    })
-    res.status(201).send(posts[id])
-})
+        await axios.post('http://localhost:4005/event', {
+            type: "PostCreated",
+            data: {
+                id,
+                title
+            }
+        })
+        res.status(201).send(posts[id])
+    } catch (error) {
 
-app.listen(process.env.PORT, () => {
+    }
+})
+app.post("/event", (req, res) => {
+    console.log("Received Event", req.body)
+
+    res.send({})
+})
+app.listen(4000, () => {
     console.log("Listening on 4000")
 })

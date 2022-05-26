@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from "react";
-import axios from "axios";
+import React from "react";
 
-const CommentList = ({postId}) => {
-    const [comments, setComments] = useState([])
+const CommentList = ({comments}) => {
 
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const res = await axios.get(`http://localhost:4001/posts/${postId}/comments`)
-
-            setComments(res.data)
-        }
-        fetchData()
-    }, [postId])
     const renderedComments = comments.map(comment => {
-        return <li key={comment.id}> {comment.content}</li>
+        let content;
+        if (comment.status === 'approved') {
+            content = comment.content;
+        }
+        if (comment.status === 'rejected') {
+            content = "This comment has been rejected"
+        }
+        if (comment.status === 'pending') {
+            content = "This content waiting moderation"
+        }
+        return <li key={comment.id}> {content}</li>
     })
     return <ul>
         {renderedComments}
